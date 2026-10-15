@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>知识库管理</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="/knowledge.css?v=20260824-2">
+</head>
+<body>
+<main class="knowledge-shell">
+    <header class="knowledge-header">
+        <div>
+            <a class="back-link" href="/">← 返回智能助手</a>
+            <p class="eyebrow">PGVECTOR · KNOWLEDGE BASE</p>
+            <h1>知识库管理</h1>
+            <p class="subtitle">维护用于 RAG 检索的知识内容，更新后会自动重新生成向量。</p>
+        </div>
+        <button id="createButton" class="send-button" type="button">新增知识</button>
+    </header>
+
+    <section class="knowledge-toolbar" aria-label="知识库筛选">
+        <form id="searchForm" class="knowledge-search">
+            <label class="sr-only" for="keywordInput">搜索知识</label>
+            <input id="keywordInput" maxlength="200" placeholder="搜索内容或来源">
+            <button class="secondary-button" type="submit">搜索</button>
+            <button id="resetButton" class="text-button" type="button">重置</button>
+        </form>
+        <label class="page-size-control">
+            每页
+            <select id="pageSizeSelect">
+                <option value="10">10 条</option>
+                <option value="20">20 条</option>
+                <option value="50">50 条</option>
+            </select>
+        </label>
+    </section>
+
+    <section class="knowledge-panel">
+        <div class="panel-summary">
+            <div>
+                <strong id="resultTitle">全部知识</strong>
+                <span id="resultCount">正在读取…</span>
+            </div>
+            <button id="refreshButton" class="icon-text-button" type="button">↻ 刷新</button>
+        </div>
+
+        <div class="table-wrap">
+            <table class="knowledge-table">
+                <thead>
+                <tr>
+                    <th>知识内容</th>
+                    <th>来源</th>
+                    <th>更新时间</th>
+                    <th><span class="sr-only">操作</span></th>
+                </tr>
+                </thead>
+                <tbody id="knowledgeRows"></tbody>
+            </table>
+            <div id="emptyState" class="empty-state hidden">
+                <span>◇</span>
+                <h2>还没有知识内容</h2>
+                <p>新增第一条知识，或调整当前搜索条件。</p>
+            </div>
+            <div id="loadingState" class="loading-state">正在读取知识库…</div>
+        </div>
+
+        <nav id="pagination" class="pagination" aria-label="知识库分页"></nav>
+    </section>
+
+    <p id="pageStatus" class="page-status" aria-live="polite"></p>
+</main>
+
+<dialog id="editorDialog" class="knowledge-dialog editor-dialog">
+    <form id="editorForm">
+        <input id="documentId" type="hidden">
+        <div class="dialog-heading">
+            <div>
+                <p class="eyebrow">KNOWLEDGE DOCUMENT</p>
+                <h2 id="editorTitle">新增知识</h2>
+            </div>
+            <button id="closeEditorButton" class="icon-button" type="button" aria-label="关闭">×</button>
+        </div>
+        <label for="sourceInput">来源（可选）</label>
+        <input id="sourceInput" maxlength="200" placeholder="例如：运维手册 / 调度规范">
+        <label for="contentInput">知识内容</label>
+        <textarea id="contentInput" maxlength="20000" rows="12" placeholder="输入需要向量化并用于检索的知识内容……" required></textarea>
+        <div class="editor-meta">
+            <span id="contentCount">0 / 20000</span>
+            <span>保存后将重新生成向量</span>
+        </div>
+        <p id="editorStatus" class="dialog-status" aria-live="polite"></p>
+        <div class="dialog-actions">
+            <button id="cancelEditorButton" class="secondary-button" type="button">取消</button>
+            <button id="saveButton" class="send-button" type="submit">保存知识</button>
+        </div>
+    </form>
+</dialog>
+
+<script src="/knowledge.js?v=20260824-2"></script>
+</body>
+</html>
